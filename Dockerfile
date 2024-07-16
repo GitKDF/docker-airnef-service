@@ -2,17 +2,20 @@ FROM debian:stable
 
 # Config
 ARG version=1.1
-ARG source=http://www.testcams.com/airnef/Version_${version}/airnef_v${version}_Linux_Binary.tar.gz
 VOLUME ["/output", "/opt/airnef/appdata"]
 ENV IPADDRESS=auto
-ENV REALTIMEDOWNLOAD=afternormal
+ENV REALTIMEDOWNLOAD=disabled
+ENV EXTLIST=JPG
+ENV CAMERASLEEPWHENDONE=yes
+ENV RERTYDELAYSECS=2
+ENV OTHERARGUMENTS
+ENV TZ=America/Denver
 
 # "Build"
 WORKDIR /opt
 RUN apt update && apt install -y wget && rm -rf /var/lib/apt/lists/*
-RUN wget --no-check-certificate $source
 RUN tar -xf airnef_v${version}_Linux_Binary.tar.gz
 RUN rm airnef_v${version}_Linux_Binary.tar.gz
 
 # Run
-ENTRYPOINT /opt/airnef/airnefcmd --ipaddress $IPADDRESS --realtimedownload $REALTIMEDOWNLOAD --outputdir /output
+ENTRYPOINT /opt/airnef/airnefcmdcontinuous --ipaddress $IPADDRESS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --retrydelaysecs $RETRYDELAYSECS $OTHERARGUMENTS --outputdir /output
