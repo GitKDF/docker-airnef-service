@@ -8,7 +8,7 @@ ENV REALTIMEDOWNLOAD=disabled
 ENV EXTLIST=JPG
 ENV CAMERASLEEPWHENDONE=yes
 ENV RERTYDELAYSECS=2
-ENV FILENAMESPEC=@filename@
+ENV FILENAMESPEC=@capturefilename@
 ENV DIRNAMESPEC=@capturedate@
 ENV TZ=America/Denver
 
@@ -16,4 +16,4 @@ ENV TZ=America/Denver
 COPY . .
 
 # Run
-ENTRYPOINT python airnefcmd.py --ipaddress $IPADDRESS --retrydelaysecs $RETRYDELAYSECS --filenamespec $FILENAMESPEC --dirnamespec $DIRNAMESPEC --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --outputdir /output
+ENTRYPOINT python airnefcmd.py --ipaddress $IPADDRESS --retrydelaysecs $RETRYDELAYSECS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --dirnamespec $DIRNAMESPEC --filenamespec $FILENAMESPEC --outputdir /output
