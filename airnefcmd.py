@@ -1076,7 +1076,6 @@ def ssdpDiscoverCameraIpAddress():
 	if g.args['ssdp_addservice']:
 		ssdpServiceNames = ssdpServiceNames + g.args['ssdp_addservice']
 	
-	consoleWriteLine("Searching for a Sony or Canon camera via SSDP ")
 	try:
 		ssdpMessage = ssdp.discover(ssdpServiceNames, lambda ssdpMessage : ssdp.extractIpAddressFromSSDPMessage(ssdpMessage) != None,\
 			g.args['ssdp_discoveryattempts'], g.args['ssdp_discoverytimeoutsecsperattempt'], g.args['ssdp_discoveryflags'], g.args['ssdp_addmulticastif'])
@@ -3695,6 +3694,7 @@ def main():
 	#
 	# Removed as we want this to run continuously
 	# attemptNumber = 0
+	consoleWriteLine("Searching for a Sony or Canon camera via SSDP ")
 	while True:	
 		try:
 		
@@ -3721,7 +3721,7 @@ def main():
 				# Removed to avoid docker log saving these as entires
 				# consoleWriteLine("\b" * len(secondsToNextRetryStr) + " " * len(secondsToNextRetryStr) + "\b" * len(secondsToNextRetryStr))
 				secondsToNextRetry -= 1
-			consoleClearLine()
+			# consoleClearLine()
 			
 		except KeyboardInterrupt as e: # in case <ctrl>-c is pressed in delay above
 			try: 
