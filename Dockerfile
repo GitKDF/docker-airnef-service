@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM python:3.9-slim
 
 # Config
 ARG version=1.1
