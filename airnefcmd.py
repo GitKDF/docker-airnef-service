@@ -3526,7 +3526,7 @@ def appMain():
 		# successful completion
 		#
 		bEchoNewlineBeforeReturning = False
-		return (0, true) # This line modified to keep the script running on successful download, and only exit on an error
+		return (0, True) # This line modified to keep the script running on successful download, and only exit on an error
 		
 	except (mtpwifi.MtpConnectionFailureException, ssdp.DiscoverFailureException) as e:
 		newConnectErrMsg = str(e)
