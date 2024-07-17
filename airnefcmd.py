@@ -3527,7 +3527,7 @@ def appMain():
 		# successful completion
 		#
 		bEchoNewlineBeforeReturning = False
-		return (0, False)
+		return (0, true) # This line modified to keep the script running on successful download, and only exit on an error
 		
 	except (mtpwifi.MtpConnectionFailureException, ssdp.DiscoverFailureException) as e:
 		newConnectErrMsg = str(e)
@@ -3693,28 +3693,33 @@ def main():
 	#
 	# do app's main work
 	#
-	attemptNumber = 0
+	# Removed as we want this to run continuously
+	# attemptNumber = 0
 	while True:	
 		try:
 		
 			(_errno, retryRecommended) = appMain()
 			if retryRecommended == False:
-				# if successful or if user terminated app
-				break;
+				# if user terminated app
+				 break;
 				
-			attemptNumber += 1
-			if attemptNumber >= g.args['retrycount']:
-				applog_i("\nNumber of attempts ({:d}) has reached maximum configured value - exiting".format(attemptNumber))
-				break;
+			# Removed as we want this to run continuously
+			# attemptNumber += 1
+			# if attemptNumber >= g.args['retrycount']:
+			#	applog_i("\nNumber of attempts ({:d}) has reached maximum configured value - exiting".format(attemptNumber))
+			#	break;
 						
 			# delay until next retry
 			secondsToNextRetry = g.args['retrydelaysecs']			
-			consoleWriteLine("\rDelaying {:d} seconds before retrying. Press <ctrl-c> to exit [{:d} attempts]: ".format(g.args['retrydelaysecs'], attemptNumber))
+			# Removed to avoid docker log saving these as entires
+			# consoleWriteLine("\rDelaying {:d} seconds before retrying. Press <ctrl-c> to exit [{:d} attempts]: ".format(g.args['retrydelaysecs'], attemptNumber))
 			while secondsToNextRetry:
 				secondsToNextRetryStr = "{:d}".format(secondsToNextRetry)
-				consoleWriteLine(secondsToNextRetryStr)				
+				# Removed to avoid docker log saving these as entires
+				# consoleWriteLine(secondsToNextRetryStr)				
 				time.sleep(1)
-				consoleWriteLine("\b" * len(secondsToNextRetryStr) + " " * len(secondsToNextRetryStr) + "\b" * len(secondsToNextRetryStr))
+				# Removed to avoid docker log saving these as entires
+				# consoleWriteLine("\b" * len(secondsToNextRetryStr) + " " * len(secondsToNextRetryStr) + "\b" * len(secondsToNextRetryStr))
 				secondsToNextRetry -= 1
 			consoleClearLine()
 			
