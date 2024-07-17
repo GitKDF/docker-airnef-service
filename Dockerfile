@@ -16,4 +16,4 @@ ENV TZ=America/Denver
 COPY . .
 
 # Run
-ENTRYPOINT python airnefcmd.py --ipaddress $IPADDRESS --filenamespec $FILENAMESPEC --dirnamespec $DIRNAMESPEC --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --retrydelaysecs $RETRYDELAYSECS --outputdir /output
+ENTRYPOINT python airnefcmd.py --ipaddress $IPADDRESS --retrydelaysecs $RETRYDELAYSECS --filenamespec $FILENAMESPEC --dirnamespec $DIRNAMESPEC --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --outputdir /output
