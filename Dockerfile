@@ -19,4 +19,4 @@ RUN tar -xf airnef_v${version}_Linux_Binary.tar.gz
 RUN rm airnef_v${version}_Linux_Binary.tar.gz
 
 # Run
-ENTRYPOINT /opt/airnef/airnefcmdcontinuous --ipaddress $IPADDRESS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --retrydelaysecs $RETRYDELAYSECS $OTHERARGUMENTS --outputdir /output
+ENTRYPOINT /opt/airnef/airnefcmdcontinuous.sh --ipaddress $IPADDRESS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --retrydelaysecs $RETRYDELAYSECS $OTHERARGUMENTS --outputdir /output
