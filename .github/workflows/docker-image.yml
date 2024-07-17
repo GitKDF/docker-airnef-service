@@ -22,7 +22,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --t docker-airnef-service:latest
+      run: docker build . --file Dockerfile --tag docker-airnef-service:latest
 
     - name: Push Docker image to Docker Hub
       run: docker push gitkdf/docker-airnef-service:latest
