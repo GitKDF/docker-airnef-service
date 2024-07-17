@@ -12,12 +12,7 @@ ENV OTHERARGUMENTS=
 ENV TZ=America/Denver
 
 # "Build"
-WORKDIR /opt
-COPY airnef_v${version}_Linux_Binary.tar.gz /opt
-RUN apt update && apt install -y wget && rm -rf /var/lib/apt/lists/*
-RUN tar -xf airnef_v${version}_Linux_Binary.tar.gz
-RUN rm airnef_v${version}_Linux_Binary.tar.gz
-COPY airnefcmdcontinuous.sh /opt/airnef
+COPY . .
 
 # Run
-ENTRYPOINT /opt/airnef/airnefcmdcontinuous.sh --ipaddress $IPADDRESS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --retrydelaysecs $RETRYDELAYSECS $OTHERARGUMENTS --outputdir /output
+ENTRYPOINT python airnefcmd.py --ipaddress $IPADDRESS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --retrydelaysecs $RETRYDELAYSECS $OTHERARGUMENTS --outputdir /output
