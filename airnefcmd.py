@@ -2435,11 +2435,11 @@ def downloadMtpFileObjects_DownloadProgressCallback(bytesReceivedAllCurrentPaylo
 		totalObjSizeBytes = totalFileSizeIfKnown
 	else:
 		totalObjSizeBytes = totalBytesExpectedAllCurrentPayloads		
-	pctDone = int(float(bytesReceived) / totalObjSizeBytes * 100)
+	pctDone = int(float(bytesReceived) / totalObjSizeBytes * 10) # changed to update every 10%
 	if pctDone != downloadMtpFileObjects_DownloadProgressCallback.lastPctPrinted:
 		# only update if it's changed. it's ok if we miss a single % update when switching files
 		downloadMtpFileObjects_DownloadProgressCallback.lastPctPrinted = pctDone
-		consoleWriteLine("\b\b\b{:2d}%".format(pctDone))
+		consoleWriteLine(" -- {:2d}%".format(pctDone)) # removed backspaces
 
 
 #
@@ -3526,6 +3526,7 @@ def appMain():
 		# successful completion
 		#
 		bEchoNewlineBeforeReturning = False
+		resetDownloadStats() # Since we completed, we want to reset the download stats for the next time we connect
 		return (0, True) # This line modified to keep the script running on successful download, and only exit on an error
 		
 	except (mtpwifi.MtpConnectionFailureException, ssdp.DiscoverFailureException) as e:
