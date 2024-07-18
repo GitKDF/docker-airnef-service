@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 # Config
 ARG version=1.1
-VOLUME ["/output", "/opt/airnef/appdata"]
+VOLUME ["/output", "/appdata"]
 ENV IPADDRESS=auto
 ENV REALTIMEDOWNLOAD=disabled
 ENV EXTLIST=JPG
