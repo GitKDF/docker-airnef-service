@@ -1083,8 +1083,11 @@ def ssdpDiscoverCameraIpAddress():
 			raise ssdp.DiscoverFailureException(\
 				"\nNo camera found. For Sony cameras please make sure the camera "\
 				"is in the 'Send to Computer' WiFi mode.\n\nWaiting for camera...")			
-	# except ssdp.DiscoverFailureException as e:
+	except ssdp.DiscoverFailureException as e:
 		# raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e)) # prepend "Connection Failed" message to exception text
+  		if not e.startswith("\nNo camera found."):
+    		e = ">> Connection Failed <<\n\n" + str(e)
+  		raise DiscoverFailureException(e)
 	finally:
 		consoleClearLine()
 	
