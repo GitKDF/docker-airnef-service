@@ -16,6 +16,6 @@ docker run -d \
         -e TZ=America/Moncton \
         --name vvintan0 \
         -v /mnt/photos/Syncs/Camera:/output \
-        -v /etc/airnef:/opt/airnef/appdata \
+        -v /etc/airnef:/appdata \
         jvaldron/docker-airnef
 ```
