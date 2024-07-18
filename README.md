@@ -12,10 +12,17 @@ On a Synology NAS, simply add the image as a container, map a volume from your d
 docker run -d \
         --name vvintan0 \
         --restart always \
-        -e IPADDRESS="<ip to cam>" \
-        -e TZ=America/Moncton \
+        -e IPADDRESS=auto
+        -e REALTIMEDOWNLOAD=disabled
+        -e EXTLIST=JPG
+        -e CAMERASLEEPWHENDONE=yes
+        -e RERTYDELAYSECS=2
+        -e FILENAMESPEC=@capturefilename@
+        -e DIRNAMESPEC=@capturedate_y@-@capturedate_m@-@capturedate_d@
+        -e OTHERARGUMENTS=none
+        -e TZ=America/Denver
         --name vvintan0 \
         -v /mnt/photos/Syncs/Camera:/output \
         -v /etc/airnef:/appdata \
-        jvaldron/docker-airnef
+        gitkdf/docker-airnef-service
 ```
