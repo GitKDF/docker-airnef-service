@@ -2435,7 +2435,7 @@ def downloadMtpFileObjects_DownloadProgressCallback(bytesReceivedAllCurrentPaylo
 		totalObjSizeBytes = totalFileSizeIfKnown
 	else:
 		totalObjSizeBytes = totalBytesExpectedAllCurrentPayloads		
-	pctDone = int(float(bytesReceived) / totalObjSizeBytes * 10) # changed to update every 10%
+	pctDone = int(float(bytesReceived) / totalObjSizeBytes * 10) * 10 # changed to update every 10%
 	if pctDone != downloadMtpFileObjects_DownloadProgressCallback.lastPctPrinted:
 		# only update if it's changed. it's ok if we miss a single % update when switching files
 		downloadMtpFileObjects_DownloadProgressCallback.lastPctPrinted = pctDone
@@ -2701,6 +2701,7 @@ def downloadMtpFileObjects(firstMtpObjectToDownload = None):
 		applog_d(">> {:s}".format(getMtpOpDesc(mtpOpGet)))
 		
 		consoleWriteLine("Downloading \"{:s}\":  0%".format(localFilenameWithoutPath))
+		downloadMtpFileObjects_DownloadProgressCallback.lastPctPrinted = 0
 
 		#
 		# do the get/download
