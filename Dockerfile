@@ -9,7 +9,7 @@ ENV EXTLIST=JPG
 ENV CAMERASLEEPWHENDONE=yes
 ENV RERTYDELAYSECS=2
 ENV FILENAMESPEC=@capturefilename@
-ENV DIRNAMESPEC=@capturedate@
+ENV DIRNAMESPEC=@capturedate_y@-@capturedate_m@-@capturedate_d@
 ENV OTHERARGUMENTS=none
 ENV TZ=America/Denver
 
