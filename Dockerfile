@@ -17,10 +17,4 @@ ENV TZ=America/Denver
 COPY . .
 
 # Run
-ENTRYPOINT sh -c '
-  if [ "$OTHERARGUMENTS" = "none" ]; then
-    python airnefcmd.py --ipaddress $IPADDRESS --retrydelaysecs $RERTYDELAYSECS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --dirnamespec $DIRNAMESPEC --filenamespec $FILENAMESPEC outputdir /output
-  else
-    python airnefcmd.py --ipaddress $IPADDRESS --retrydelaysecs $RERTYDELAYSECS --realtimedownload $REALTIMEDOWNLOAD --extlist $EXTLIST --camerasleepwhendone $CAMERASLEEPWHENDONE --dirnamespec $DIRNAMESPEC --filenamespec $FILENAMESPEC $OTHERARGUMENTS outputdir /output
-  fi
-'
+ENTRYPOINT ["/entrypoint.sh"]
