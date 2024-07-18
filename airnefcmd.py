@@ -1860,7 +1860,7 @@ def createMtpObjectFromHandle(objHandle, createMtpObjectStatsStruct=None, cached
 # 
 def createMtpObjectsFromHandleList(objHandlesList, createMtpObjectStatsStruct=None, cachedMtpObjectInfoListDict=None, fFindAndCreateAntecendentDirs=True):
 	numObjectHandles = len(objHandlesList)
-	consoleWriteLine("\rRetrieving list of images/files from camera: {:d} files".format(numObjectHandles))
+	consoleWriteLine("\rRetrieving list of images/files from camera: {:d} files\n".format(numObjectHandles))
 	for nObjIndex in xrange(0, numObjectHandles):
 		createMtpObjectFromHandle(objHandlesList[nObjIndex], createMtpObjectStatsStruct, cachedMtpObjectInfoListDict, fFindAndCreateAntecendentDirs)
 		
