@@ -1081,10 +1081,10 @@ def ssdpDiscoverCameraIpAddress():
 			g.args['ssdp_discoveryattempts'], g.args['ssdp_discoverytimeoutsecsperattempt'], g.args['ssdp_discoveryflags'], g.args['ssdp_addmulticastif'])
 		if ssdpMessage  == None:
 			raise ssdp.DiscoverFailureException(\
-				"No camera found via SSDP Discovery. For Sony cameras please make the camera\n"\
-				"is in the 'Send to Computer' WiFi mode.")			
-	except ssdp.DiscoverFailureException as e:
-		raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e)) # prepend "Connection Failed" message to exception text
+				"\n\nNo camera found. For Sony cameras please make sure the camera "\
+				"is in the 'Send to Computer' WiFi mode.\n\nWaiting for camera...")			
+	# except ssdp.DiscoverFailureException as e:
+		# raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e)) # prepend "Connection Failed" message to exception text
 	finally:
 		consoleClearLine()
 	
