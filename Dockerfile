@@ -15,6 +15,8 @@ ENV TZ=America/Denver
 
 # "Build"
 COPY . .
+# Set executable permissions for the script
+RUN chmod +x /entrypoint.sh
 
 # Run
 ENTRYPOINT ["/entrypoint.sh"]
