@@ -3698,7 +3698,7 @@ def main():
 	#
 	# Removed as we want this to run continuously
 	# attemptNumber = 0
-	consoleWriteLine("Searching for a Sony or Canon camera via SSDP ")
+	consoleWriteLine("Searching for a Sony or Canon camera via SSDP\n")
 	while True:	
 		try:
 		
