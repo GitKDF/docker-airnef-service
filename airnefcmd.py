@@ -1085,7 +1085,7 @@ def ssdpDiscoverCameraIpAddress():
 		#		"is in the 'Send to Computer' WiFi mode.\n\nWaiting for camera...")			
 	except ssdp.DiscoverFailureException as e:
 		# raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e)) # prepend "Connection Failed" message to exception text
-  		if str(e).strip():
+		if str(e).strip():
 			e = ">> Connection Failed <<\n\n" + str(e)
 		raise ssdp.DiscoverFailureException()
 	finally:
