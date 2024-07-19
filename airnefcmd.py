@@ -1080,14 +1080,14 @@ def ssdpDiscoverCameraIpAddress():
 		ssdpMessage = ssdp.discover(ssdpServiceNames, lambda ssdpMessage : ssdp.extractIpAddressFromSSDPMessage(ssdpMessage) != None,\
 			g.args['ssdp_discoveryattempts'], g.args['ssdp_discoverytimeoutsecsperattempt'], g.args['ssdp_discoveryflags'], g.args['ssdp_addmulticastif'])
 		if ssdpMessage  == None:
-			raise ssdp.DiscoverFailureException("") #\
+			raise ssdp.DiscoverFailureException("No camera found.") #\
 		#		"\nNo camera found. For Sony cameras please make sure the camera "\
 		#		"is in the 'Send to Computer' WiFi mode.\n\nWaiting for camera...")			
 	except ssdp.DiscoverFailureException as e:
 		# raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e)) # prepend "Connection Failed" message to exception text
-		if str(e).strip():
-			e = ">> Connection Failed <<\n\n" + str(e)
-		raise ssdp.DiscoverFailureException()
+		if not str(e).startswith("No camera found."):
+			e = ">> Connection Failed <<\n" + str(e)
+		raise ssdp.DiscoverFailureException(e)
 	finally:
 		consoleClearLine()
 	
@@ -3534,7 +3534,7 @@ def appMain():
 		
 	except (mtpwifi.MtpConnectionFailureException, ssdp.DiscoverFailureException) as e:
 		newConnectErrMsg = str(e)
-		if newConnectErrMsg != appMain.lastConnectErrMsg or g.args['suppressdupconnecterrmsgs'] == 'no':
+		if (newConnectErrMsg != appMain.lastConnectErrMsg or g.args['suppressdupconnecterrmsgs'] == 'no') and not newConnectErrMsg.startswith("No camera found."):
 			applog_e(newConnectErrMsg)
 			appMain.lastConnectErrMsg = newConnectErrMsg
 		else:
