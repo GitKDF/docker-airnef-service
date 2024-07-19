@@ -1086,7 +1086,7 @@ def ssdpDiscoverCameraIpAddress():
 	except ssdp.DiscoverFailureException as e:
 		# raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e)) # prepend "Connection Failed" message to exception text
   		# if not str(e).startswith("\nNo camera found."):
-		raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + e)
+		raise ssdp.DiscoverFailureException(">> Connection Failed <<\n\n" + str(e))
 	finally:
 		consoleClearLine()
 	
