@@ -2786,7 +2786,7 @@ def downloadMtpFileObjects(firstMtpObjectToDownload = None):
 				
 			except mtpwifi.MtpOpExecFailureException as e:
 
-				applog_i("") # newline since console is on "Downloading ...." message
+				applog_i("1") # newline since console is on "Downloading ...." message
 
 				if e.mtpRespCode != MTP_RESP_COMMUNICATION_ERROR and respErrorDuringDownload_checkIfFileDeletedOnCamera(mtpObject, localFilenameWithoutPath, e):
 					# file was deleted on camera - ignore error so we can move on to next file
@@ -2827,7 +2827,7 @@ def downloadMtpFileObjects(firstMtpObjectToDownload = None):
 				fileSizeBytes = len(dataReceived)
 				writeDataToDownloadedFile(foDownloadedFile, localFilenameWithPath, dataReceived, True, False)					
 			except mtpwifi.MtpOpExecFailureException as e:
-				applog_i("") # newline since console is on "Downloading ...." message
+				applog_i("2") # newline since console is on "Downloading ...." message
 				if e.mtpRespCode != MTP_RESP_COMMUNICATION_ERROR and respErrorDuringDownload_checkIfFileDeletedOnCamera(mtpObject, localFilenameWithoutPath, e):
 					# file was deleted on camera - ignore error so we can move on to next file
 					fFileDeletedOnCamera = True
@@ -2951,7 +2951,7 @@ def downloadMtpFileObjects(firstMtpObjectToDownload = None):
 #
 def printMtpObjectDirectoryListing():	
 
-	applog_i("") # newline separator for logging
+	applog_i("3") # newline separator for logging
 
 	fUsingRenameEngine = g.args['filenamespec'] != None or g.args['dirnamespec'] != None
 	if fUsingRenameEngine:
@@ -3485,7 +3485,7 @@ def appMain():
 			printMtpObjectDirectoryListing()
 		else:
 		
-			applog_i("") # newline separator for logging
+			applog_i("4") # newline separator for logging
 
 			#
 			# download files. we skip this if if we're in realtime-only capture mode
@@ -3625,7 +3625,7 @@ def appMain():
 						 "do this will cause the next airnef session to not negotiate successfully.")
 						 
 		if bEchoNewlineBeforeReturning:
-			applog_i("")
+			applog_i("5")
 				
 		closeSockets()
 
