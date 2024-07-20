@@ -446,7 +446,7 @@ def openConnection(ipAddrStr, verbose, connectionTimeoutSecs=SOCKET_TIMEOUT_CONN
 	port = 15740
 	applog_d("openConnection(): Attempting connection to {:s}:{:d}".format(ipAddrStr, port))
 	s = None
-	consoleWriteLine("Attempting to establish camera connection at {:s}:{:d} ".format(ipAddrStr, port))
+	consoleWriteLine("Attempting to establish camera connection at {:s}:{:d}\n".format(ipAddrStr, port))
 	try:
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.settimeout(connectionTimeoutSecs)
