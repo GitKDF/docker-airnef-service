@@ -2313,7 +2313,8 @@ def performDirAndFileRename(renameDict, fCreateDirs=False):
 		dirAfterRename = os.path.join(dirAfterRename, rename.performRename(g.args['dirnamespec'], renameDict))
 		if "#SESSION#" in dirAfterRename:
 			if incomplete_session:
-				dirAfterRename = dirAfterRename.replace("#SESSION#", incomplete_session)
+				dirAfterRename = incomplete_session
+				# dirAfterRename = dirAfterRename.replace("#SESSION#", incomplete_session)
 			else:
 				counter = 1
 				while True:
@@ -2322,7 +2323,7 @@ def performDirAndFileRename(renameDict, fCreateDirs=False):
 					if not os.path.exists(dirAfterRenameTemp):
 						break
 				dirAfterRename = dirAfterRenameTemp
-				incomplete_session = incomplete_session = f"XFER{counter - 1}"
+				incomplete_session = dirAfterRename
 		if fCreateDirs and not os.path.exists(dirAfterRename):
 			applog_v("Creating directory tree \"{:s}\"".format(dirAfterRename))
 			os.makedirs(dirAfterRename)	
@@ -3544,6 +3545,11 @@ def appMain():
 		# successful completion
 		#
 		bEchoNewlineBeforeReturning = False
+
+		if incomplete_session:
+			complete_file_path = os.path.join(incomplete_session, "complete.txt")
+			with open(complete_file_path, "w") as fp:
+				pass  # Creates an empty file
 		incomplete_session = ""
 		resetDownloadStats() # Since we completed, we want to reset the download stats for the next time we connect
 		return (0, True) # This line modified to keep the script running on successful download, and only exit on an error
