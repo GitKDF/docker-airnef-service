@@ -2305,6 +2305,7 @@ def updateRenameDictKeysSpecificToMtpObject(renameDict, mtpObject, dlnum, dlnum_
 # initialized rename dict
 #	
 def performDirAndFileRename(renameDict, fCreateDirs=False):
+	global incomplete_session
 	filenameAfterRename = renameDict['filename']
 	dirAfterRename = g.args['outputdir'] # note this may be an empty string when 'dirnamespec' was specified by user
 	# note that syntax for both filenamespec and dirnamespec were verified during cmd-line arg parsing
