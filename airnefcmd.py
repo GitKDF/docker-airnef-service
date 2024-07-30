@@ -183,6 +183,7 @@ class GlobalVarsStruct:
 # global vars
 #
 g  = GlobalVarsStruct()
+incomplete_session = ""
 
 #
 # global constant data
@@ -2309,6 +2310,18 @@ def performDirAndFileRename(renameDict, fCreateDirs=False):
 	# note that syntax for both filenamespec and dirnamespec were verified during cmd-line arg parsing
 	if g.args['dirnamespec']:
 		dirAfterRename = os.path.join(dirAfterRename, rename.performRename(g.args['dirnamespec'], renameDict))
+		if "#SESSION#" in dirAfterRename:
+			if incomplete_session:
+				dirAfterRename = dirAfterRename.replace("#SESSION#", incomplete_session)
+			else:
+				counter = 1
+			while True:
+				dirAfterRenameTemp = dirAfterRename.replace("#SESSION#", f"XFER{counter}")
+				counter += 1
+				if not os.path.exists(dirAfterRenameTemp):
+					break
+			dirAfterRename = dirAfterRenameTemp
+			incomplete_session = incomplete_session = f"XFER{counter - 1}"
 		if fCreateDirs and not os.path.exists(dirAfterRename):
 			applog_v("Creating directory tree \"{:s}\"".format(dirAfterRename))
 			os.makedirs(dirAfterRename)	
@@ -3529,6 +3542,7 @@ def appMain():
 		# successful completion
 		#
 		bEchoNewlineBeforeReturning = False
+		incomplete_session = ""
 		resetDownloadStats() # Since we completed, we want to reset the download stats for the next time we connect
 		return (0, True) # This line modified to keep the script running on successful download, and only exit on an error
 		
