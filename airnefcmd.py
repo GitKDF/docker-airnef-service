@@ -3439,6 +3439,7 @@ def realTimeCapture():
 # main work routine
 #
 def appMain():
+	global incomplete_session
 
 	if not hasattr(appMain, "lastConnectErrMsg"):
 		appMain.lastConnectErrMsg = "" # static var to track last connect err msg to allow supressing reporting while waiting for connection across retries
