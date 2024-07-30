@@ -2316,13 +2316,13 @@ def performDirAndFileRename(renameDict, fCreateDirs=False):
 				dirAfterRename = dirAfterRename.replace("#SESSION#", incomplete_session)
 			else:
 				counter = 1
-			while True:
-				dirAfterRenameTemp = dirAfterRename.replace("#SESSION#", f"XFER{counter}")
-				counter += 1
-				if not os.path.exists(dirAfterRenameTemp):
-					break
-			dirAfterRename = dirAfterRenameTemp
-			incomplete_session = incomplete_session = f"XFER{counter - 1}"
+				while True:
+					dirAfterRenameTemp = dirAfterRename.replace("#SESSION#", f"XFER{counter}")
+					counter += 1
+					if not os.path.exists(dirAfterRenameTemp):
+						break
+				dirAfterRename = dirAfterRenameTemp
+				incomplete_session = incomplete_session = f"XFER{counter - 1}"
 		if fCreateDirs and not os.path.exists(dirAfterRename):
 			applog_v("Creating directory tree \"{:s}\"".format(dirAfterRename))
 			os.makedirs(dirAfterRename)	
