@@ -2318,7 +2318,7 @@ def performDirAndFileRename(renameDict, fCreateDirs=False):
 			else:
 				counter = 1
 				while True:
-					dirAfterRenameTemp = dirAfterRename.replace("#SESSION#", f"XFER{counter}")
+					dirAfterRenameTemp = dirAfterRename.replace("#SESSION#", f"{counter}")
 					counter += 1
 					if not os.path.exists(dirAfterRenameTemp):
 						break
