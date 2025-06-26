@@ -365,7 +365,13 @@ class MtpObject(LinkedListObj):
 	def objInList(cls, mtpObj):		
 		return mtpObj.mtpObjectHandle in MtpObject.__MtpObjects_ObjectHandleDict
 			
-			
+	@classmethod
+	def clear_all_objects(cls):
+		applog_d("Clearing all in-memory MtpObject instances and lists.")
+		cls.__MtpObjects_LL_CaptureDateSorted = LinkedList() # Reinitialize or clear the LinkedList
+		cls.__MtpObjects_ObjectHandleDict = {}              # Clear the dictionary
+		cls._CountMtpObjectDirectories = 0                  # Reset directory count
+
 	def __str__(self):	# generates string description of object
 		s =  "MtpObject instance = 0x{:08x}\n".format(id(self))
 		s += "  mtpObjectHandle = 0x{:08x}\n".format(self.mtpObjectHandle)
@@ -1788,6 +1794,7 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 	if bInvalidateCache:
 		# generate a message if the cache was invalidated for any reason
 		applog_v("The MTP object cache was detected as stale and will be discarded")
+		MtpObject.clear_all_objects()
 		return None
 		
 	#
