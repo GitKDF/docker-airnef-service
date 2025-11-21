@@ -1743,13 +1743,15 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		# put cached object in cache dictionary we're building
 		cachedMtpObjectInfoListDict[objHandle] = cachedMtpObjectInfo
 					
-		if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJASSOC_GenericFolder and not g.fValidateNextImage:
-			# this object is not a directory or image - nothing more to do with it
-			continue
-
-		if g.fValidateNextImage and mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJFORMAT_EXIF_or_JPEG:
-			# we are validating the next image, but this is not an image
-			continue
+		if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJASSOC_GenericFolder:
+			# this object is not a directory
+			if (g.fValidateNextImage and not (
+				  mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].objectFormat == MTP_OBJFORMAT_EXIF_or_JPEG or
+				  mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].objectFormat == MTP_OBJFORMAT_TIFF or
+				  mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].objectFormat == MTP_OBJFORMAT_CR2  or
+				  mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].objectFormat == MTP_OBJFORMAT_NEF_WithoutMtp)):
+				# we are validating the next image, but this is not an image
+				continue
 		#
 		# this is a directory object. first make sure that this object handle 
 		# still exists on the camera by checking it against the object handle
@@ -1758,25 +1760,25 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		# cache is stale
 		#
 		if objHandle not in objHandlesFromCameraSet:
-			applog_d("MTP obj handle 0x{:08x} for cache directory object \"{:s}\" does not exist".format(objHandle, cachedMtpObjectInfo.filename))
+			applog_d("MTP obj handle 0x{:08x} for cache object \"{:s}\" does not exist".format(objHandle, cachedMtpObjectInfo.filename))
 			bInvalidateCache = True
 			break
 
 		#
-		# the directory object handle still exists on the camera. now we need
+		# the object handle still exists on the camera. now we need
 		# to perform a MTP_OP_GetObjectInfo of the handle and compare it against
-		# our cached copy to confirm its the same directory/timestamp
+		# our cached copy to confirm its the same directory/timestamp/filename
 		#		
 		try:
-			if g.fValidateNextImage:
-				applog_d("Validating MTP obj cache image object \"{:s}\" on handle 0x{:08x}".format(cachedMtpObjectInfo.filename, objHandle))
-				# clear flag to validate next image
-				g.fValidateNextImage = False
-			else:
+			if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType == MTP_OBJASSOC_GenericFolder:
 				applog_d("Validating MTP obj cache directory object \"{:s}\" on handle 0x{:08x}".format(cachedMtpObjectInfo.filename, objHandle))
 				# set flag to validate the next image file after checking a folder.  This will ensure that the first filename in the folder matches
 				# if the card was formatted, the folder structure may be identical (Sony labels by date) but the next image filename would be different
 				g.fValidateNextImage = True
+			else:
+				applog_d("Validating MTP obj cache image object \"{:s}\" on handle 0x{:08x}".format(cachedMtpObjectInfo.filename, objHandle))
+				# clear flag to validate next image
+				g.fValidateNextImage = False
 			mtpObjectInfo = getMtpObjectInfo(objHandle)
 		except mtpwifi.MtpOpExecFailureException as e:
 			if e.mtpRespCode == MTP_RESP_COMMUNICATION_ERROR:
