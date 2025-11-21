@@ -1795,6 +1795,8 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		# generate a message if the cache was invalidated for any reason
 		applog_v("The MTP object cache was detected as stale and will be discarded")
 		MtpObject.clear_all_objects()
+		g.lastFullMtpHandleListProcessedByBuildMtpObjects = None # Clear the list of old objects
+		g.downloadMtpFileObjects_LastMtpObjectDownload = None # Clear the last downloaded pointer
 		applog_d("Clearing download history.")
 		g.downloadHistoryDict = {}
 		downloadHistoryFilename = g.cameraLocalMetadataPathAndRootName + "-downloadhist";
