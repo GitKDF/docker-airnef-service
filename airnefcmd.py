@@ -371,6 +371,8 @@ class MtpObject(LinkedListObj):
 		cls.__MtpObjects_LL_CaptureDateSorted = LinkedList() # Reinitialize or clear the LinkedList
 		cls.__MtpObjects_ObjectHandleDict = {}              # Clear the dictionary
 		cls._CountMtpObjectDirectories = 0                  # Reset directory count
+		applog_d("Clearing download history.")
+		g.downloadHistoryDict = {}
 
 	def __str__(self):	# generates string description of object
 		s =  "MtpObject instance = 0x{:08x}\n".format(id(self))
