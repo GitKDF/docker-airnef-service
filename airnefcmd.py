@@ -1800,7 +1800,7 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		#
 		if mtpObjectInfo != cachedMtpObjectInfo:
 			# mismatches - the most likely cause is the timestamp
-			applog_v("Found mismatch in MTP object cached directory \"{:s}\"".format(cachedMtpObjectInfo.filename))
+			applog_v("Found mismatch in MTP cached object \"{:s}\"".format(cachedMtpObjectInfo.filename))
 			applog_d("    Cached copy: {:s}".format(str(cachedMtpObjectInfo)))
 			applog_d("Downloaded copy: {:s}".format(str(mtpObjectInfo)))
 			bInvalidateCache = True
