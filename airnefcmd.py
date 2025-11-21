@@ -167,6 +167,8 @@ class GlobalVarsStruct:
 		self.fAllObjsAreFromCameraTransferList = False	# True if buildMtpObjects() found and retrieved a transfer list from the camera (ie, user picked photos to download on camera)
 		self.fRetrievedMtpObjects = False				# True if buildMtpObjects() has successfully completed this session
 		self.fRealTimeDownloadPhaseStarted = False		# True if we've completed a "normal" mode transfer (or bypassed it by user config) and have started realtime image download
+
+		self.fValidateNextImage = False					# Flag to validate cached info for first image file after a folder, more detailed check for card formatted event)
 		
 		self.downloadHistoryDict = None					# download history
 		self.downloadMtpFileObjects_LastMtpObjectDownload = None # MTP object last downloaded (either last completed or last we were working on)
@@ -1741,10 +1743,14 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		# put cached object in cache dictionary we're building
 		cachedMtpObjectInfoListDict[objHandle] = cachedMtpObjectInfo
 					
-		if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJASSOC_GenericFolder:
-			# this object is not a directory - nothing more to do with it
+		if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJASSOC_GenericFolder and
+		   not g.fValidateNextImage:
+			# this object is not a directory or image - nothing more to do with it
 			continue
-			
+
+		if g.fValidateNextImage and mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJFORMAT_EXIF_or_JPEG:
+			# we are validating the next image, but this is not an image
+			continue
 		#
 		# this is a directory object. first make sure that this object handle 
 		# still exists on the camera by checking it against the object handle
@@ -1763,7 +1769,15 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		# our cached copy to confirm its the same directory/timestamp
 		#		
 		try:
-			applog_d("Validating MTP obj cache directory object \"{:s}\" on handle 0x{:08x}".format(cachedMtpObjectInfo.filename, objHandle))
+			if g.fValidateNextImage:
+				applog_d("Validating MTP obj cache image object \"{:s}\" on handle 0x{:08x}".format(cachedMtpObjectInfo.filename, objHandle))
+				# clear flag to validate next image
+				g.fValidateNextImage = False
+			else:
+				applog_d("Validating MTP obj cache directory object \"{:s}\" on handle 0x{:08x}".format(cachedMtpObjectInfo.filename, objHandle))
+				# set flag to validate the next image file after checking a folder.  This will ensure that the first filename in the folder matches
+				# if the card was formatted, the folder structure may be identical (Sony labels by date) but the next image filename would be different
+				g.fValidateNextImage = True
 			mtpObjectInfo = getMtpObjectInfo(objHandle)
 		except mtpwifi.MtpOpExecFailureException as e:
 			if e.mtpRespCode == MTP_RESP_COMMUNICATION_ERROR:
