@@ -1743,8 +1743,7 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		# put cached object in cache dictionary we're building
 		cachedMtpObjectInfoListDict[objHandle] = cachedMtpObjectInfo
 					
-		if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJASSOC_GenericFolder and
-		   not g.fValidateNextImage:
+		if mtpObjectInfoCacheTuple.mtpObjectInfoList[nObjIndex].associationType != MTP_OBJASSOC_GenericFolder and not g.fValidateNextImage:
 			# this object is not a directory or image - nothing more to do with it
 			continue
 
