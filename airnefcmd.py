@@ -1797,8 +1797,8 @@ def loadAndValidateMtpObjectInfoCacheFromDisk(objHandlesFromCameraList):
 		MtpObject.clear_all_objects()
 		applog_d("Clearing download history.")
 		g.downloadHistoryDict = {}
+		downloadHistoryFilename = g.cameraLocalMetadataPathAndRootName + "-downloadhist";
 		if (os.path.exists(downloadHistoryFilename)):
-			downloadHistoryFilename = g.cameraLocalMetadataPathAndRootName + "-downloadhist";
 			applog_v("Deleting download history file \"{:s}\"".format(downloadHistoryFilename))
 			os.remove(downloadHistoryFilename)
 			fileDownloadHistory = open(downloadHistoryFilename, "a")
